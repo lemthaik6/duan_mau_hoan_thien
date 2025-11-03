@@ -12,3 +12,5 @@ define('DB_PASSWORD', '');
 define('DB_NAME'    , 'duanmau');  // Tên database
 
 define('PATH_ROOT'    , __DIR__ . '/../');
+// OpenAI API key (leave empty if you don't want to use external AI)
+define('OPENAI_API_KEY', '');

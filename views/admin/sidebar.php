@@ -3,9 +3,14 @@
         <li><a href="#">Quản lý sản phẩm</a>
         <ul class="submenu">
             <li><a href="<?= BASE_URL.'?mode=admin&act=them-san-pham'?>">Thêm sản phẩm</a></li>
-            <li><a href="http://localhost/duan_mau/duan_mau1/?mode=admin&act=danh-sach-san-pham">Danh sách sản phẩm</a></li>
+            <li><a href="<?= BASE_URL.'?mode=admin&act=danh-sach-san-pham'?>">Danh sách sản phẩm</a></li>
         </ul>
     </li>
+  <li><a href="#">Quản lý bài viết</a>
+     <ul class="submenu">
+      <li><a href="<?= BASE_URL.'?mode=admin&act=danh-sach-bai-viet'?>">Duyệt bài viết</a></li>
+    </ul>
+  </li>
         <li><a href="#">Quản lý danh mục</a>
          <ul class="submenu">
             <li><a href="<?= BASE_URL.'?mode=admin&act=them-danh-muc'?>">Thêm danh mục</a></li>

@@ -60,5 +60,16 @@ class CartModel
         }
         return 0;
     }
+
+    public function clearCart($userId) {
+        $cartId = $this->findCartByUser($userId);
+        if ($cartId) {
+            $sql = "DELETE FROM cartdetail WHERE cartId = :cartId";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute(['cartId' => $cartId]);
+            return $stmt->rowCount();
+        }
+        return 0;
+    }
 }
 ?>

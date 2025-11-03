@@ -24,9 +24,9 @@
       <div class="col">
          <h4>Kết nối</h4>
          <div style="display: flex; gap: 10px;">
-            <a href="#"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg" width="24" alt="Facebook"></a>
-            <a href="#"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" width="24" alt="Instagram"></a>
-            <a href="#"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg" width="24" alt="YouTube"></a>
+            <a href="https://www.facebook.com/lemthai1808"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg" width="24" alt="Facebook"></a>
+            <a href="https://www.instagram.com/lemthai1808"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" width="24" alt="Instagram"></a>
+            <a href="https://www.youtube.com/lemthai1808"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg" width="24" alt="YouTube"></a>
          </div>
       </div>
    </div>

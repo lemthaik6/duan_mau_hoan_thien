@@ -11,11 +11,17 @@ require_once './controllers/DashboardController.php';
 require_once './controllers/CategoryController.php';
 require_once './controllers/AuthController.php';
 require_once './controllers/HomeController.php';
+require_once './controllers/CommentController.php';
+require_once './controllers/ChatController.php';
+require_once './controllers/PostController.php';
 
 // Require toàn bộ file Models
 require_once './models/ProductModel.php';
 require_once './models/CategoryModel.php';
 require_once './models/UserModel.php';
+require_once './models/CommentModel.php';
+require_once './models/ChatModel.php';
+require_once './models/PostModel.php';
 
 // Route
 

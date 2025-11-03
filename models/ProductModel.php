@@ -32,6 +32,8 @@ class ProductModel
     }
     
     public function getAllProduct() {
+        // Select all product columns. We avoid referencing comment_status directly here
+        // because the column might not exist in older databases.
         $sql = "SELECT * FROM products";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
@@ -56,6 +58,25 @@ class ProductModel
             ':id' => $id
         ]);
         return $stmt->rowCount();
+    }
+
+    public function updateCommentStatus($id, $status) {
+        // Ensure the column exists. If not, create it.
+        $checkSql = "SHOW COLUMNS FROM products LIKE 'comment_status'";
+        $checkStmt = $this->conn->prepare($checkSql);
+        $checkStmt->execute();
+        $col = $checkStmt->fetch(PDO::FETCH_ASSOC);
+        if (!$col) {
+            $alterSql = "ALTER TABLE products ADD COLUMN comment_status TINYINT(1) DEFAULT 0";
+            $this->conn->exec($alterSql);
+        }
+
+        $sql = "UPDATE products SET comment_status = :status WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([
+            ':id' => $id,
+            ':status' => $status ? 1 : 0
+        ]);
     }
 
     public function deleteProduct($id) {

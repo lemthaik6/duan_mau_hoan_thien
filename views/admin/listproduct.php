@@ -14,6 +14,7 @@
                 <!-- Bỏ cột Ảnh -->
                 <th>Mô tả</th>
                 <th>Danh mục</th>
+                <th>Bình luận</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -27,9 +28,11 @@
                 <!-- Bỏ cột ảnh -->
                 <td>".htmlspecialchars($item["description"])."</td>
                 <td>".$item["catid"]."</td>
+                <td>".((isset($item["comment_status"]) && $item["comment_status"]) ? '<span class="status-locked">Đã khóa</span>' : '<span class="status-unlocked">Mở</span>')."</td>
                 <td>
                     <a href='?mode=admin&act=edit-product&id=".$item['id']."' class='action-btn'>Sửa</a> |
-                    <a href='?mode=admin&act=delete-product&id=".$item['id']."' class='action-btn' onclick=\"return confirm('Bạn chắc chắn muốn xóa?');\">Xóa</a>
+                    <a href='?mode=admin&act=delete-product&id=".$item['id']."' class='action-btn' onclick=\"return confirm('Bạn chắc chắn muốn xóa?');\">Xóa</a> |
+                    <a href='?mode=admin&act=toggle-comment&id=".$item['id']."' class='action-btn'>".(isset($item["comment_status"]) && $item["comment_status"] ? 'Mở khóa bình luận' : 'Khóa bình luận')."</a>
                 </td>
                 </tr>";
             }
@@ -53,6 +56,22 @@ tbody tr:hover { background-color: #ecf0f1; }
 tbody td { padding: 10px; border-bottom: 1px solid #ddd; }
 td:last-child { color: #2980b9; font-weight: bold; cursor: pointer; }
 td:last-child:hover { text-decoration: underline; }
+
+.status-locked, .status-unlocked {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.status-locked {
+    background-color: #ef4444;
+    color: white;
+}
+
+.status-unlocked {
+    background-color: #22c55e;
+    color: white;
+}
 .action-btn { color: #2980b9; font-weight: bold; text-decoration: none; padding: 4px 10px; border-radius: 4px; transition: background 0.2s; }
 .action-btn:hover { background: #d6eaf8; text-decoration: underline; }
 table img { border-radius: 6px; box-shadow: 0 1px 4px rgba(21,101,192,0.07); }

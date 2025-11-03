@@ -97,15 +97,49 @@ require_once 'header.php';
                 </div>
                 <div class="info">
                     <h1><?=$name?></h1>
-                    <p>Giá sản phẩm: <?=number_format($price)?> VNĐ</p>
                     <form id="addToCartForm">
                         <input type="number" name="quantity" value="1" min="1">
                         <input type="hidden" name="productid" value="<?=$id?>">
                         <button type="submit">Thêm giỏ hàng</button>
                     </form>
-                    <div class="description">
-                        <?=$description?>
-                    </div>
+          <p>Giá sản phẩm: <?=number_format($price)?> VNĐ</p>
+          <div class="description">
+            <?= nl2br(htmlspecialchars($description)) ?>
+          </div>
+          <!-- Comments section -->
+          <div class="comments" style="margin-top:24px;">
+            <h3>Bình luận</h3>
+            <?php $isLocked = isset($comment_status) ? (int)$comment_status : 0; ?>
+            <?php if($isLocked): ?>
+              <p style="color:#ef4444;">Bình luận cho sản phẩm này đã bị khóa.</p>
+            <?php endif; ?>
+
+            <div id="commentsList">
+              <?php if(!empty($comments)): ?>
+                <?php foreach($comments as $c): ?>
+                  <div class="comment-item" style="padding:8px;border-bottom:1px solid #eee;">
+                    <strong><?= htmlspecialchars($c['user_name'] ?? 'Người dùng') ?></strong>
+                    <span style="color:#666;font-size:0.9em;margin-left:8px;"><?= $c['created_at'] ?></span>
+                    <div style="margin-top:6px;"><?= nl2br(htmlspecialchars($c['content'])) ?></div>
+                  </div>
+                <?php endforeach; ?>
+              <?php else: ?>
+                <p>Chưa có bình luận nào.</p>
+              <?php endif; ?>
+            </div>
+
+            <?php if(!$isLocked): ?>
+              <?php if(isset($_SESSION['user'])): ?>
+                <form id="commentForm" style="margin-top:12px;">
+                  <textarea name="content" rows="3" style="width:100%;padding:8px;border-radius:6px;border:1px solid #ccc;" placeholder="Viết bình luận..." required></textarea>
+                  <input type="hidden" name="product_id" value="<?=$id?>">
+                  <button type="submit" style="margin-top:8px;background:#1565c0;color:#fff;padding:8px 12px;border-radius:6px;border:none;">Gửi bình luận</button>
+                </form>
+              <?php else: ?>
+                <p><a href="?act=login">Đăng nhập</a> để bình luận.</p>
+              <?php endif; ?>
+            <?php endif; ?>
+          </div>
                 </div>
             </div>
         </section>
@@ -136,5 +170,43 @@ document.getElementById('addToCartForm').addEventListener('submit', async functi
         alert('Có lỗi xảy ra, vui lòng thử lại');
     }
 });
+</script>
+<script>
+// Comment form submission
+const commentForm = document.getElementById('commentForm');
+if(commentForm){
+  commentForm.addEventListener('submit', async function(e){
+    e.preventDefault();
+    const formData = new FormData(this);
+    try{
+      const res = await fetch('?act=add-comment', {
+        method: 'POST',
+        body: formData
+      });
+      const data = await res.json();
+      alert(data.message);
+      if(data.status){
+        // prepend new comment to the list
+        const c = data.data;
+        const list = document.getElementById('commentsList');
+        const div = document.createElement('div');
+        div.className = 'comment-item';
+        div.style.padding = '8px';
+        div.style.borderBottom = '1px solid #eee';
+        div.innerHTML = `<strong>${c.user_name}</strong> <span style="color:#666;font-size:0.9em;margin-left:8px;">${c.created_at}</span><div style="margin-top:6px;">${c.content.replace(/\n/g,'<br>')}</div>`;
+        if(list && list.firstChild){
+          list.insertBefore(div, list.firstChild);
+        } else if(list){
+          list.appendChild(div);
+        }
+        // clear textarea
+        this.querySelector('textarea[name="content"]').value = '';
+      }
+    }catch(err){
+      console.error(err);
+      alert('Lỗi khi gửi bình luận');
+    }
+  });
+}
 </script>
 

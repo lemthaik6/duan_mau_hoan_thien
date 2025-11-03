@@ -41,3 +41,20 @@ function deleteFile($file){
         unlink($pathDelete); // Hàm unlink dùng để xóa file
     }
 }
+
+// CSRF helpers
+function generateCsrfToken()
+{
+    if (session_status() == PHP_SESSION_NONE) session_start();
+    if (empty($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(16));
+    }
+    return $_SESSION['csrf_token'];
+}
+
+function verifyCsrfToken($token)
+{
+    if (session_status() == PHP_SESSION_NONE) session_start();
+    if (empty($token) || empty($_SESSION['csrf_token'])) return false;
+    return hash_equals($_SESSION['csrf_token'], $token);
+}

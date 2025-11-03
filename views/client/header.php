@@ -21,6 +21,7 @@ if (!empty($_SESSION['cart'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LEMTHAI</title>
+    <link rel="stylesheet" href="<?= BASE_URL ?>views/client/css/style.css">
     <style>
         /* ===== Reset ===== */
         * {
@@ -134,10 +135,12 @@ if (!empty($_SESSION['cart'])) {
         <!-- Menu -->
         <nav class="nav-menu">
             <ul>
-                <li><a href="http://localhost/duan_mau/duan_mau1/">Trang chủ</a></li>
-                <li><a href="http://localhost/duan_mau/duan_mau1/?act=product">Sản phẩm</a></li>
-                <li><a href="http://localhost/duan_mau/duan_mau1/?act=news">Tin tức</a></li>
-                <li><a href="http://localhost/duan_mau/duan_mau1/?act=contact">Liên hệ</a></li>
+                <li><a href="<?= BASE_URL ?>">Trang chủ</a></li>
+                <li><a href="<?= BASE_URL ?>?act=product">Sản phẩm</a></li>
+                <li><a href="<?= BASE_URL ?>?act=news">Tin tức</a></li>
+                <li><a href="<?= BASE_URL ?>?act=contact">Liên hệ</a></li>
+                <li><a href="<?= BASE_URL ?>?act=add-post">Gửi bài</a></li>
+                <li><a href="#" id="chatToggleLink">Chat tư vấn</a></li>
             </ul>
         </nav>
 
@@ -149,13 +152,42 @@ if (!empty($_SESSION['cart'])) {
                 <button type="submit">🔍</button>
             </form>
 
-            <a href="http://localhost/duan_mau/duan_mau1/?act=cart_page" class="cart-link">
+            <a href="<?= BASE_URL ?>?act=cart_page" class="cart-link">
                 🛒 <span class="cart-count"><?= $cartCount ?></span>
             </a>
 
+            <a href="<?= BASE_URL ?>?act=add-post" style="background:#ff9800;color:#fff;padding:6px 10px;border-radius:6px;text-decoration:none;margin-right:8px">Gửi bài</a>
             <a href="<?= BASE_URL.'?act=login' ?>" class="logout-btn">Đăng xuất</a>
         </div>
     </div>
 </header>
+<!-- Floating chat panel -->
+<div id="chatPanel" style="position:fixed;right:20px;bottom:20px;z-index:9999;">
+    <button id="chatFloatBtn" style="background:#1565c0;color:#fff;border:none;padding:12px 14px;border-radius:50%;box-shadow:0 6px 20px rgba(0,0,0,0.2);cursor:pointer">💬</button>
+    <div id="chatBox" style="display:none;width:360px;height:480px;box-shadow:0 8px 30px rgba(0,0,0,0.2);border-radius:10px;overflow:hidden;margin-bottom:10px;background:#fff">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:#1565c0;color:#fff">
+            <strong>Trợ lý bán hàng</strong>
+            <button id="chatCloseBtn" style="background:transparent;border:none;color:#fff;font-size:18px;cursor:pointer">✖</button>
+        </div>
+        <iframe id="chatIframe" src="?act=chat&embedded=1" style="border:none;width:100%;height:calc(100% - 44px);background:#fff"></iframe>
+    </div>
+</div>
+
+<script>
+// Toggle chat panel
+const chatFloatBtn = document.getElementById('chatFloatBtn');
+const chatBox = document.getElementById('chatBox');
+const chatCloseBtn = document.getElementById('chatCloseBtn');
+const chatToggleLink = document.getElementById('chatToggleLink');
+
+function openChat(){ chatBox.style.display = 'block'; }
+function closeChat(){ chatBox.style.display = 'none'; }
+
+chatFloatBtn.addEventListener('click', ()=>{
+    if(chatBox.style.display === 'block') closeChat(); else openChat();
+});
+chatCloseBtn.addEventListener('click', closeChat);
+if(chatToggleLink) chatToggleLink.addEventListener('click', (e)=>{ e.preventDefault(); openChat(); });
+</script>
 </body>
 </html>

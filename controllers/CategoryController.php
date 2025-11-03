@@ -13,8 +13,8 @@ class CategoryController
     {
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
        $id = $this->modelCategory->AddCategory($_POST);
-      echo "ID danh mục vừa thêm là: $id";
-      header("Location: /duan_mau/duan_mau1/?mode=admin&act=danh-muc");
+    echo "ID danh mục vừa thêm là: $id";
+    header('Location: ' . BASE_URL . '?mode=admin&act=danh-muc');
       exit();
         }
         else{
@@ -32,7 +32,7 @@ class CategoryController
         $id = $_GET['id'] ?? 0;
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $this->modelCategory->updateCategory($id, $_POST);
-            header("Location: /duan_mau/duan_mau1/?mode=admin&act=danh-muc");
+            header('Location: ' . BASE_URL . '?mode=admin&act=danh-muc');
             exit();
         } else {
             $category = $this->modelCategory->getCategoryById($id);
@@ -45,7 +45,7 @@ class CategoryController
     {
         $id = $_GET['id'] ?? 0;
         $this->modelCategory->deleteCategory($id);
-        header("Location: /duan_mau/duan_mau1/?mode=admin&act=danh-muc");
+    header('Location: ' . BASE_URL . '?mode=admin&act=danh-muc');
         exit();
     }
 }

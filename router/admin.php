@@ -20,6 +20,12 @@ match ($act) {
     'xoa-danh-muc' => (new CategoryController())->DeleteCategory(),    // Thêm dòng này
     'them-san-pham' => (new ProductController())->AddProduct(),
     'danh-sach-san-pham' => (new ProductController())->ProductViewAll(),
+    'danh-sach-bai-viet' => (new PostController())->adminList(),
+    'xoa-bai-viet' => (new PostController())->delete(),
+    'duyet-bai-viet' => (new PostController())->approve(),
+    'sua-bai-viet' => (new PostController())->editForm(),
+    'cap-nhat-bai-viet' => (new PostController())->update(),
+    'toggle-comment' => (new CommentController())->toggleCommentStatus(),
     'edit-product' => (new ProductController())->EditProduct(),
     'delete-product' => (new ProductController())->DeleteProduct(),
     default => (new DashboardController())->Dashboard(),

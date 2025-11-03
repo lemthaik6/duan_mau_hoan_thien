@@ -11,14 +11,14 @@
     <div class="container flex-between">
         <!-- Logo -->
         <div class="logo">
-            <a href="/">Thaiml<span>Admin</span></a>
+            <a href="<?= BASE_URL ?>">Thaiml<span>Admin</span></a>
         </div>
 
         <!-- Search Bar -->
         
         <div class="user-info">
             <h1>Xin chào, Admin</h1>
-            <a href="/duan_mau/duan_mau1/?act=login" class="logout-btn">Đăng xuất</a>
+            <a href="<?= BASE_URL ?>?act=login" class="logout-btn">Đăng xuất</a>
         </div>
     </div>
 </header>

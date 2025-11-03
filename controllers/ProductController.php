@@ -12,6 +12,7 @@ class ProductController
         $this->modelCategory = new CategoryModel();
         $this->modelProduct  = new ProductModel();
         $this->cartModel     = new CartModel();
+        // lazy-load comment model when product detail is shown
     }
 
     public function AddProduct()
@@ -50,6 +51,14 @@ class ProductController
             if (empty($result)) {
                 header('Location: ' . BASE_URL);
             } else {
+                // load comments for this product (if comments table exists)
+                $comments = [];
+                if (file_exists(__DIR__ . '/../models/CommentModel.php')) {
+                    require_once __DIR__ . '/../models/CommentModel.php';
+                    $cm = new CommentModel();
+                    $comments = $cm->getCommentsByProduct($id);
+                }
+
                 extract($result);
                 require_once './views/client/productDetail.php';
             }
@@ -106,6 +115,35 @@ class ProductController
         $userId = $_SESSION['user']['id'] ?? 0;
         $cartItems = $this->cartModel->getAllProductInCart($userId);
         require_once './views/client/cart_page.php';
+    }
+
+    // Checkout page + action
+    public function Checkout()
+    {
+        $userId = $_SESSION['user']['id'] ?? 0;
+        if ($userId == 0) {
+            $_SESSION['flash'] = 'Bạn cần đăng nhập để thanh toán.';
+            header('Location: ' . BASE_URL . '?act=login');
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // perform checkout - for now just clear the cart and show success
+            $this->cartModel->clearCart($userId);
+            $_SESSION['flash'] = 'Thanh toán thành công. Cảm ơn bạn!';
+            header('Location: ' . BASE_URL);
+            exit;
+        }
+
+        // GET: show summary
+        $cartItems = $this->cartModel->getAllProductInCart($userId);
+        // compute total
+        $total = 0;
+        foreach ($cartItems as $it) {
+            $total += ($it['price'] * $it['quantity']);
+        }
+        // render view
+        require_once './views/client/checkout.php';
     }
 
     public function EditProduct() {

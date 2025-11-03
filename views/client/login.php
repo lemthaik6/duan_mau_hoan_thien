@@ -63,10 +63,10 @@ body {
     <div class="container">
        <div id="login">
         <h1>Đăng nhập tài khoản</h1>
-        <form action="/duan_mau/duan_mau1/?act=login" method="POST">
+    <form action="<?= BASE_URL ?>?act=login" method="POST">
             <input type="text" name="username" placeholder="Tên đăng nhập" required>
             <input type="password" name="password" placeholder="Mật khẩu" required>
-            <a href="/duan_mau/duan_mau1/?act=register">Đăng kí tài khoản</a>
+      <a href="<?= BASE_URL ?>?act=register">Đăng kí tài khoản</a>
             <button type="submit">Đăng nhập</button>
         </form>
        </div>
